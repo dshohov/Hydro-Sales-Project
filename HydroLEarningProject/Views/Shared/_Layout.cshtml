@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="hydro-config" />
+
+
+    <title>@ViewData["Title"] - HydroLEarningProject</title>
+    <script type="importmap"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HydroLEarningProject.styles.css" asp-append-version="true" />
+   
+    <script defer src="~/hydro/hydro.js" asp-append-version="true"></script>
+    <script defer src="~/hydro/AlpineJs/alpinejs-combined.min.js" asp-append-version="true"></script>
+</head>
+<body>
+    <header class="d-flex flex-wrap justify-content-md-start py-3 mb-4 border-bottom" style="background-color: #e3f2fd;">
+        <a href="/" hydro-link class="d-flex align-items-center mb-3 mb-md-0 me-md-5 text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Hydro Sales</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a hydro-link asp-controller="Home" asp-action="Index" class="nav-link btn btn-outline-light" aria-current="page">Products</a></li>
+            <li class="nav-item"><a hydro-link asp-controller="Customer" asp-action="Index" class="nav-link btn btn-outline-light">Customers</a></li>
+            <li class="nav-item"><a href="#" class="nav-link btn btn-outline-light">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link btn btn-outline-light">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link btn btn-outline-light">About</a></li>
+        </ul>
+    </header>
+    
+    <div class="container">
+        <main role="main" class="pb-3 h-100">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="
+            width: 100%;
+            position: absolute;
+            bottom: 0;">
+        <div class="container">
+            &copy; 2024 - HydroLEarningProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
