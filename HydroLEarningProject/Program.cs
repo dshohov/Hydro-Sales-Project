@@ -2,6 +2,7 @@ using Hydro.Configuration;
 using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.IRepositories;
 using HydroLearningProject.ISerrvice;
+using HydroLearningProject.ISerrvices;
 using HydroLearningProject.Repositories;
 using HydroLearningProject.Services;
 
@@ -11,10 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton <DBContext>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductSerrvice, ProductService>();
+
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddHydro(options =>
 {

@@ -8,5 +8,15 @@ namespace HydroLearningProject.Controllers
         {
             return View();
         }
+        public IActionResult Add()
+        {
+
+            return View();
+        }
+        public IActionResult Edit(string id)
+        {
+            ViewData["Id"] = id;
+            return View();
+        }
     }
 }

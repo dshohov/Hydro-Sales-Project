@@ -1,0 +1,106 @@
+﻿
+@model HydroLearningProject.Views.Invoice.Component.InvoiceList
+
+<div>
+    <div class="flex justify-end mb-4">
+        <a asp-controller="Customer" asp-action="Add" hydro-link>
+            <button class="btn btn-primary">
+                Add Customer
+            </button>
+        </a>
+    </div>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Invoice ID
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByAscending("Id"))">Аscending</button></li>
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByDescending("Id"))">Descending</button></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            IssueDate
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByAscending("IssueDate"))">Аscending</button></li>
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByDescending("IssueDate"))">Descending</button></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Customer
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByAscending("Customer.Name"))">Аscending</button></li>
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByDescending("Customer.Name"))">Descending</button></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Net Value
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByAscending("ValueNet"))">Аscending</button></li>
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByDescending("ValueNet"))">Descending</button></li>
+                        </ul>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Gross Value
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByAscending("ValueGross"))">Аscending</button></li>
+                            <li><button class="dropdown-item" on:click="@(() => Model.OrderByDescending("ValueGross"))">Descending</button></li>
+                        </ul>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Invoices)
+            {
+                <tr>
+                    <td>@i.Id</td>
+                    <td>@i.IssueDate</td>
+                    <td>@i.Customer.Name</td>
+                    <td>@i.ValueNet</td>
+                    <td>@i.ValueGross</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                </svg>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="Edit" asp-route-id="@i.Id" hydro-link>Edit</a></li>
+
+                                <li><button class="dropdown-item" on:click="(() => Model.Remove(i.Id))">Delete</button></li>
+
+
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+</div>

@@ -51,7 +51,7 @@ namespace HydroLearningProject.Views.Home.Components
         }
 
 
-        [Poll(Interval = 6_000)]
+        [Poll(Interval = 60_000)]
         public async Task Refresh()
         {
             var orderParametr = CookieStorage.Get<string>("OrderParametr", encryption: true);

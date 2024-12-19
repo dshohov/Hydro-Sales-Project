@@ -7,10 +7,62 @@ namespace HydroLearningProject.ApplicationDbContext
     {
         public List<Product> Products { get; set; }
         public List<Customer> Customers { get; set; }
+        public List<Invoice> Invoices { get; set; }
         public DBContext() 
         {            
             Products = CreateProducts();
             Customers = CreateCustomers();
+            Invoices = CreateInvoices();
+        }
+
+        private List<Invoice> CreateInvoices()
+        {
+            var invoices = new List<Invoice>();
+            invoices.Add(new Invoice()
+            {
+                CustomerId = Customers.First().Id,
+                IssueDate = DateTime.Now,
+                PaymentTerms = 30,
+                DueDate = DateTime.Now,
+                Remarks = "Test Invoice",
+                Lines = new List<InvoiceLineModel>()
+                {
+                    new InvoiceLineModel() {
+                        IdProduct = Products.First().Id,
+                        Quantity = 1,
+                        ValueNet = Products.First().Price,
+                        Tax = Products.First().Tax,
+                        ValueGross =  Products.First().Price + ( Products.First().Price * Products.First().Tax / 100)
+                    }
+                },
+                ValueGross = 0,
+                ValueNet = 0,
+                ValueTax = 0
+
+            });
+            invoices.Add(new Invoice()
+            {
+                CustomerId = Customers.Last().Id,
+                IssueDate = DateTime.Now,
+                PaymentTerms = 30,
+                DueDate = DateTime.Now,
+                Remarks = "Test Invoice2",
+                Lines = new List<InvoiceLineModel>()
+                {
+                    new InvoiceLineModel() {
+                        IdProduct = Products.Last().Id,
+                        Quantity = 1,
+                        ValueNet = Products.Last().Price,
+                        Tax = Products.Last().Tax,
+                        ValueGross =  Products.Last().Price + ( Products.Last().Price * Products.Last().Tax / 100)
+                    }
+                },
+                ValueGross = 0,
+                ValueNet = 0,
+                ValueTax = 0
+
+            });
+            return invoices;
         }
 
         public List<Product> CreateProducts()
@@ -36,7 +88,7 @@ namespace HydroLearningProject.ApplicationDbContext
             {
                 customers.Add(new Customer
                 {
-                    Name = $"Product{i}",
+                    Name = $"Customer{i}",
                     Country = DateTime.Now.Microsecond % 2 == 0 ? "Germany" : "Ukraine",
                     City = $"City{i:D2}",
                     Address = $"Street{i:D2}",                    

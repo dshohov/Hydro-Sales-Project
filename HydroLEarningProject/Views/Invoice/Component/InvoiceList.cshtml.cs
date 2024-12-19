@@ -1,34 +1,31 @@
+using AspNetCoreGeneratedDocument;
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
-using HydroLearningProject.ISerrvice;
+using HydroLearningProject.ISerrvices;
 using HydroLearningProject.Models;
-using HydroLearningProject.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HydroLearningProject.Views.Customer.Components
+namespace HydroLearningProject.Views.Invoice.Component
 {
-    public class CustomerList(ICustomerService _customerSerrvice) : HydroComponent
+    public class InvoiceList(IInvoiceService _invoiceService) : HydroComponent
     {
-        private List<Models.Customer> _customers;
-
-        public List<Models.Customer> Customers => _customers ??= _customerSerrvice.GetCustomers();
+        private List<Models.Invoice> _invoices;
+        public List<Models.Invoice> Invoices => _invoices??= _invoiceService.GetInvoices();
 
         public void Add() =>
-            Location(Url.Page("/Customer/Add"));
+            Location(Url.Page("/Invoice/Add"));
         public void Edit(string id) =>
-            Location(Url.Page("/Customer/Edit", new { id }));
+            Location(Url.Page("/Invoice/Edit", new { id }));
 
         public void OrderByAscending(string parameter)
         {
-            var propertyInfo = typeof(Models.Customer).GetProperty(parameter);
+            var propertyInfo = typeof(Models.Invoice).GetProperty(parameter);
             if (propertyInfo == null)
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Customer)}'");
             }
 
-            _customers = Customers.OrderBy(p => propertyInfo.GetValue(p)).ToList();
+            _invoices = Invoices.OrderBy(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Ascending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
 
@@ -36,23 +33,22 @@ namespace HydroLearningProject.Views.Customer.Components
 
         public void OrderByDescending(string parameter)
         {
-            var propertyInfo = typeof(Models.Customer).GetProperty(parameter);
+            var propertyInfo = typeof(Models.Invoice).GetProperty(parameter);
             if (propertyInfo == null)
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Customer)}'");
             }
 
-            _customers = Customers.OrderByDescending(p => propertyInfo.GetValue(p)).ToList();
+            _invoices = Invoices.OrderByDescending(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Descending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
         }
-        public void Remove(string customerId)
+
+        public void Remove(string invoiceId)
         {
-            _customerSerrvice.RemoveCustomer(customerId);
+            _invoiceService.RemoveInvoice(invoiceId);
         }
-
-
-        [Poll(Interval = 60_000)]
+        [Poll(Interval = 6_000)]
         public async Task Refresh()
         {
             var orderParametr = CookieStorage.Get<string>("OrderParametr", encryption: true);
@@ -64,7 +60,7 @@ namespace HydroLearningProject.Views.Customer.Components
                 else
                     OrderByDescending(parametr);
             }
-            
+
         }
 
     }
