@@ -39,11 +39,11 @@ namespace HydroLearningProject.Views.Home.Components
             };
 
             _productSerrvice.AddProduct(product);
-            Location(Url.Action("Index", "Customer"));
+            Location(Url.Action("Index", "Product"));
         }
         public void Reset()
         {
-            Location(Url.Action("Index", "Customer"));
+            Location(Url.Action("Index", "Product"));
         }
     }
 }

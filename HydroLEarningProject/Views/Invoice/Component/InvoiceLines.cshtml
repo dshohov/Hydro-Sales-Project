@@ -1,0 +1,68 @@
+﻿@model HydroLearningProject.Views.Invoice.Component.InvoiceLines
+
+@if (Model.LinesProduct.Any())
+{
+<div>
+    <table class="table table-xs">
+        <thead class="bg-base-100 z-50">
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.LinesProduct[0].IdProduct)</th>
+                <th class="w-28 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].ValueNet)</th>
+                <th class="w-24 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].Quantity)</th>
+                <th class="w-28 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].ValueNet)</th>
+                <th class="w-28 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].ValueNet)</th>
+                <th class="w-24 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].Tax)</th>
+                <th class="w-28 text-right">@Html.DisplayNameFor(m => m.LinesProduct[0].ValueGross) </th>
+                <th class="w-8"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var index = 0; index < Model.LinesProduct.Count; index++)
+            {
+                var focus = Model.FocusLastLine && index == Model.LinesProduct.Count - 1;
+
+                <tr class="hover @(focus ? "init" : null)" x-hydro-focus="@(focus ? "input" : null)">
+                    <td>
+                        <input asp-for="LinesProduct[index].IdProduct" label="" />
+                    </td>
+                    <td>
+                            <input asp-for="LinesProduct[index].ValueNet" label="" align="right" />
+                    </td>
+                    <td class="">
+                            <input asp-for="LinesProduct[index].Quantity" label="" />
+                    </td>
+                    <td>
+                            <input asp-for="LinesProduct[index].Quantity" align="right" label="" />
+                    </td>
+                    <td>
+                            <input asp-for="LinesProduct[index].ValueGross" align="right" label="" />
+                    </td>
+                    <td class="text-right">
+                        @Model.LinesProduct[index].ValueNet.ToString("#,##0.00")
+                    </td>
+                    <td class="text-right">
+                        @Model.LinesProduct[index].ValueNet.ToString("#,##0.00")
+                    </td>
+                    <td>
+                            <input asp-for="LinesProduct[index].Tax" align="right" label="" />
+                    </td>
+                    <td class="text-right">
+                        @Model.LinesProduct[index].ValueGross.ToString("#,##0.00")
+                    </td>
+                    <td class="align-middle text-end">
+                        <button type="button"
+                                on:click="@(() => Model.InvoiceActions.RemoveLine(index))"
+                                class="btn btn-outline btn-xs h-8 border-base-content/20">
+                            
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+   
+</div>
+
+  }

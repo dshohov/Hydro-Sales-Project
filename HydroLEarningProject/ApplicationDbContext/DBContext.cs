@@ -55,13 +55,26 @@ namespace HydroLearningProject.ApplicationDbContext
                         ValueNet = Products.Last().Price,
                         Tax = Products.Last().Tax,
                         ValueGross =  Products.Last().Price + ( Products.Last().Price * Products.Last().Tax / 100)
+                    },new InvoiceLineModel() {
+                        IdProduct = Products.First().Id,
+                        Quantity = 1,
+                        ValueNet = Products.First().Price,
+                        Tax = Products.First().Tax,
+                        ValueGross =  Products.First().Price + ( Products.First().Price * Products.First().Tax / 100)
                     }
+
                 },
                 ValueGross = 0,
                 ValueNet = 0,
                 ValueTax = 0
 
             });
+            foreach (var invoice in invoices)
+            {
+                invoice.ValueGross = invoice.Lines.Select(x => x.ValueGross).Sum();
+                invoice.ValueNet = invoice.Lines.Select(x => x.ValueNet).Sum();
+                invoice.ValueTax = invoice.Lines.Select(x => x.Tax).Sum();
+            }
             return invoices;
         }
 

@@ -1,0 +1,99 @@
+﻿@model HydroLearningProject.Views.Invoice.Component.AddInvoice
+
+
+<form class="p-4" method="post" on:submit="@(() => Model.Add())">
+    <div class="flex-grow-1 overflow-y-auto">
+        <div class="p-4">
+            <h2 class="text-xl mb-3 font-bold">Add Customer</h2>
+
+            <div class="flex space-x-12 mb-8">
+
+                <div class="flex-none w-72">
+                    <select bind
+                            asp-for="CustomerId"
+                            autocomplete="off"
+                            class="peer inline-flex w-full p-2 appearance-none items-center rounded-lg border border-input bg-main pe-8 ps-3 mt-1 text-sm text-main-foreground ring-offset-background transition-shadow hover:bg-accent shadow-sm focus-visible:border-ring focus-visible:text-main-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
+
+                        <option value="" selected="@(Model.CustomerId is null or "" ? string.Empty : null)"></option>
+                        @foreach (var option in Model.Customers)
+                        {
+                            <option value="@option.Id">
+                                @option.Name
+                            </option>
+                        }
+                    </select>
+                    <span class="absolute pt-1 inset-y-0 right-px flex h-full w-9 items-center justify-center text-main-foreground/80 peer-disabled:opacity-50 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true" role="img">
+                            <path d="m6 9 6 6 6-6"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <div class="flex-none w-72">
+                    <div class="form-control w-full">
+                        <label asp-for="IssueDate" class="form-label">Issue Date</label>
+                        <input asp-for="IssueDate" class="form-control" bind:change />
+                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-control w-full">
+                        <label asp-for="DueDate" class="form-label">Due Date</label>
+                        <input asp-for="DueDate" class="form-control" bind:change />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-control w-full">
+                        <label asp-for="PaymentTerms" class="form-label">Payment Terms</label>
+                        <input asp-for="PaymentTerms" class="form-control" bind:change />
+                        <span asp-validation-for="PaymentTerms" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="flex-none w-72">
+                    <div class="mb-3">
+                        <label asp-for="Remarks" class="form-label">Remarks</label>
+                        <textarea class="shadow-sm textarea textarea-bordered w-full" rows="3" asp-for="Remarks" bind:change></textarea>
+                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="flex-none w-72">
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Summary (EUR)</span>
+                        </label>
+                        <div class="grid grid-cols-5 gap-2 bg-base-200/30 border border-base-content/20 rounded-lg p-2 text-sm shadow-sm">
+                            <div class="text-right col-span-3">
+                                Subject to
+                                0.00
+                            </div>
+                            <div class="text-right col-span-2">0.00</div>
+
+                            <div class="text-right col-span-3">Total excl. tax</div>
+                            <div class="text-right col-span-2">0.00</div>
+
+                            <div class="text-right col-span-3 font-bold col-span-2">Total</div>
+                            <div class="text-right col-span-2 font-bold">0.00</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="my-4 pb-32">
+        <button type="button"
+                on:click="@(() => Model.AddLine())"
+                class="btn">
+            Add line
+        </button>
+    </div>
+    <invoice-lines lines-product="Model.Lines" focus-last-line="@Model.FocusLastLine"  />
+
+    
+    <div class="d-flex gap-2">
+        <button class="btn btn-primary" type="submit">
+            Save Changes
+        </button>
+        <button class="btn btn-secondary" on:click="@(() => Model.Reset())" type="reset">Reset</button>
+    </div>
+</form>
