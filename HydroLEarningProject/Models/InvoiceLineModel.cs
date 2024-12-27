@@ -13,5 +13,6 @@ namespace HydroLearningProject.Models
         public decimal ValueNet { get; set; }
         public decimal ValueGross { get; set; }
         public int Tax { get; set; }
+
     }
 }

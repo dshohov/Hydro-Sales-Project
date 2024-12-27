@@ -10,9 +10,9 @@
 
                 <div class="flex-none w-72">
                     <select bind
-                            asp-for="CustomerId"
-                            autocomplete="off"
-                            class="peer inline-flex w-full p-2 appearance-none items-center rounded-lg border border-input bg-main pe-8 ps-3 mt-1 text-sm text-main-foreground ring-offset-background transition-shadow hover:bg-accent shadow-sm focus-visible:border-ring focus-visible:text-main-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
+                    asp-for="CustomerId"
+                    autocomplete="off"
+                    class="peer inline-flex w-full p-2 appearance-none items-center rounded-lg border border-input bg-main pe-8 ps-3 mt-1 text-sm text-main-foreground ring-offset-background transition-shadow hover:bg-accent shadow-sm focus-visible:border-ring focus-visible:text-main-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
 
                         <option value="" selected="@(Model.CustomerId is null or "" ? string.Empty : null)"></option>
                         @foreach (var option in Model.Customers)
@@ -66,32 +66,118 @@
                                 Subject to
                                 0.00
                             </div>
-                            <div class="text-right col-span-2">0.00</div>
+                            <div class="text-right col-span-2">@Model.ValueNet.ToString("#,##0.00")</div>
 
                             <div class="text-right col-span-3">Total excl. tax</div>
-                            <div class="text-right col-span-2">0.00</div>
+                            <div class="text-right col-span-2">@Model.ValueTax.ToString("#,##0.00")</div>
 
                             <div class="text-right col-span-3 font-bold col-span-2">Total</div>
-                            <div class="text-right col-span-2 font-bold">0.00</div>
+                            <div class="text-right col-span-2 font-bold">@Model.ValueGross.ToString("#,##0.00")</div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
     <div class="my-4 pb-32">
         <button type="button"
-                on:click="@(() => Model.AddLine())"
-                class="btn">
+        on:click="@(() => Model.AddLine())"
+        class="btn">
             Add line
         </button>
     </div>
-    <invoice-lines lines-product="Model.Lines" focus-last-line="@Model.FocusLastLine"  />
+    @*     <invoice-lines lines-product="@Model.Lines" focus-last-line="@Model.FocusLastLine" products="@Model.Products" /> *@
+
+
+    @if (Model.Lines.Any())
+    {
+        <div>
+            <table class="table table-xs">
+                <thead class="bg-base-100 z-50">
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.Lines[0].IdProduct)</th>
+                        <th class="w-28 text-right">@Html.DisplayNameFor(m => m.Lines[0].Quantity)</th>
+                        <th class="w-28 text-right">@Html.DisplayNameFor(m => m.Lines[0].ValueNet)</th>
+                        <th class="w-28 text-right">@Html.DisplayNameFor(m => m.Lines[0].Tax) in %</th>
+                        <th class="w-28 text-right">@Html.DisplayNameFor(m => m.Lines[0].Tax)</th>
+                        <th class="w-28 text-right">@Html.DisplayNameFor(m => m.Lines[0].ValueGross) </th>
+                        <th class="w-8"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var index = 0; index < Model.Lines.Count; index++)
+                    {
+                        var focus = Model.FocusLastLine && index == Model.Lines.Count - 1;
+
+                        <tr class="hover @(focus ? "init" : null)" x-hydro-focus="@(focus ? "input" : null)">
+                            <td>
+
+                                <select bind
+                                asp-for="Lines[index].IdProduct"
+                                autocomplete="off"
+                                class="peer inline-flex w-full p-1 appearance-none items-center rounded-lg border border-input bg-main pe-8 ps-3 text-sm text-main-foreground ring-offset-background transition-shadow hover:bg-accent shadow-sm focus-visible:border-ring focus-visible:text-main-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
+
+                                    <option value="" selected="@(Model.Lines[index].IdProduct is null or "" ? string.Empty : null)"></option>
+                                    @foreach (var option in Model.Products)
+                                    {
+                                        <option value="@option.Id">
+                                            @option.Name
+                                        </option>
+                                    }
+                                </select>
+                                <span class="absolute pt-1 inset-y-0 right-px flex h-full w-9 items-center justify-center text-main-foreground/80 peer-disabled:opacity-50 pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true" role="img">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </span> 
+
+
+                            </td>
+                            <td class="text-right">
+                                <input asp-for="Lines[index].Quantity"
+                                       
+                                       bind
+                                       style="text-align:right;"
+                                       label="" />
+
+                            </td>
+                            <td class="text-right">
+                                @Model.Lines[index].ValueNet.ToString("#,##0.00")
+                            </td>
+                            <td class="text-right">
+                                @Model.Lines[index].Tax.ToString("#,##0") %
+                            </td>
+                            <td class="text-right">
+                                @{
+                                    var taxInMoney = (Model.Lines[index].ValueGross - Model.Lines[index].ValueNet);
+                                }
+                                @taxInMoney.ToString("#,##0.00")
+                            </td>
+                            <td class="text-right">
+                                @Model.Lines[index].ValueGross.ToString("#,##0.00")
+                            </td>
+                            <td class="align-middle text-end">
+                                <button type="button"
+                                        on:click="@(() => Model.RemoveLine(index))"
+                                        class="btn btn-outline btn-xs h-8 border-base-content/20">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+    }
 
     
     <div class="d-flex gap-2">
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" on:click="@(() => Model.Add())" type="submit">
             Save Changes
         </button>
         <button class="btn btn-secondary" on:click="@(() => Model.Reset())" type="reset">Reset</button>
