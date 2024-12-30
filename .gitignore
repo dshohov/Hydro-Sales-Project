@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/HydroLEarningProject/wwwroot/js/echarts.js
+/HydroLEarningProject/wwwroot/hydro/hydro.js
+/HydroLEarningProject/wwwroot/hydro/AlpineJs/alpinejs-combined.min.js
+/HydroLEarningProject/wwwroot/hydro/AlpineJs/alpinejs-LICENSE
