@@ -2,6 +2,9 @@
 @model HydroLearningProject.Views.Invoice.Component.InvoiceList
 
 <div>
+
+
+
     <div class="flex justify-end mb-4">
         <a asp-controller="Invoice" asp-action="Add" hydro-link>
             <button class="btn btn-primary">
@@ -88,7 +91,7 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="Edit" asp-route-id="@i.Id" hydro-link>Edit</a></li>
+                                <li><a class="dropdown-item" asp-controller="Invoice" asp-action="Edit" asp-route-id="@i.Id" hydro-link>Edit</a></li>
 
                                 <li><button class="dropdown-item" on:click="(() => Model.Remove(i.Id))">Delete</button></li>
 
@@ -100,6 +103,8 @@
             }
         </tbody>
     </table>
+
+
 
 
 

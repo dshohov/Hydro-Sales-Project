@@ -2,7 +2,7 @@
 
 namespace HydroLearningProject.ISerrvice
 {
-    public interface IProductSerrvice
+    public interface IProductService
     {
         List<Product> GetProducts();
         void AddProduct(Product product);

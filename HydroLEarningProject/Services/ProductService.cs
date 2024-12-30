@@ -1,11 +1,10 @@
-﻿using HydroLearningProject.ApplicationDbContext;
-using HydroLearningProject.IRepositories;
+﻿using HydroLearningProject.IRepositories;
 using HydroLearningProject.ISerrvice;
 using HydroLearningProject.Models;
 
 namespace HydroLearningProject.Services
 {
-    public class ProductService(IProductRepository _productRepository) : IProductSerrvice
+    public class ProductService(IProductRepository _productRepository) : IProductService
     {
         public void AddProduct(Product product)
         {
@@ -15,13 +14,10 @@ namespace HydroLearningProject.Services
         {
             _productRepository.RemoveProduct(productId);
         }
-
         public List<Product> GetProducts()
         {
-            return _productRepository.GetProducts();
-                
+            return _productRepository.GetProducts();                
         }
-
         public Product GetProduct(string productId)
         {
             return _productRepository.GetProduct(productId);

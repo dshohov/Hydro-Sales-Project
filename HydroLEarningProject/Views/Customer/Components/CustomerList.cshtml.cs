@@ -1,20 +1,13 @@
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.ISerrvice;
-using HydroLearningProject.Models;
-using HydroLearningProject.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HydroLearningProject.Views.Customer.Components
 {
     public class CustomerList(ICustomerService _customerSerrvice) : HydroComponent
     {
         private List<Models.Customer> _customers;
-
         public List<Models.Customer> Customers => _customers ??= _customerSerrvice.GetCustomers();
-
         public void Add() =>
             Location(Url.Page("/Customer/Add"));
         public void Edit(string id) =>
@@ -27,11 +20,9 @@ namespace HydroLearningProject.Views.Customer.Components
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Customer)}'");
             }
-
             _customers = Customers.OrderBy(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Ascending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
-
         }
 
         public void OrderByDescending(string parameter)
@@ -46,11 +37,8 @@ namespace HydroLearningProject.Views.Customer.Components
             CookieStorage.Set("OrderParametr", "Descending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
         }
-        public void Remove(string customerId)
-        {
+        public void Remove(string customerId) =>
             _customerSerrvice.RemoveCustomer(customerId);
-        }
-
 
         [Poll(Interval = 60_000)]
         public async Task Refresh()

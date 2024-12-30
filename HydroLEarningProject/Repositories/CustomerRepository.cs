@@ -14,12 +14,10 @@ namespace HydroLearningProject.Repositories
         {
             _context.Customers.Remove(GetCustomer(customerId));
         }
-
         public List<Customer> GetCustomers()
         {
             return _context.Customers;
         }
-
         public Customer GetCustomer(string customerId)
         {
             return _context.Customers.FirstOrDefault(x => x.Id == customerId);

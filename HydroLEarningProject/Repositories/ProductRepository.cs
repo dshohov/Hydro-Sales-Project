@@ -14,12 +14,10 @@ namespace HydroLearningProject.Repositories
         {
             _context.Products.Remove(GetProduct(productId));
         }
-
         public List<Product> GetProducts()
         {
             return _context.Products;
         }
-
         public Product GetProduct(string productId)
         {
             return _context.Products.FirstOrDefault(x => x.Id == productId);

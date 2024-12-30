@@ -1,16 +1,16 @@
-using System.ComponentModel.DataAnnotations;
-using Hydro;
 using Hydro.Utils;
-using HydroLearningProject.ISerrvice;
-using HydroLearningProject.ISerrvices;
+using Hydro;
 using HydroLearningProject.Models;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using HydroLearningProject.ISerrvices;
+using HydroLearningProject.ISerrvice;
 
 namespace HydroLearningProject.Views.Invoice.Component
 {
-    public class AddInvoice(IInvoiceService _invoiceService, ICustomerService _customerService, IProductService _productService) : HydroComponent
+    public class EditInvoice(IInvoiceService _invoiceService, IProductService _productService, ICustomerService _customerService) : HydroComponent
     {
-        public string Id { get; set; }
+        public string InvoiceId { get; set; }
         [Required]
         public string CustomerId { get; set; }
         [Required]
@@ -31,40 +31,43 @@ namespace HydroLearningProject.Views.Invoice.Component
         [Transient]
         public bool FocusLastLine { get; set; }
         public List<Models.Customer> Customers { get; set; }
-        public List<Models.Product> Products { get; set; } 
+        public List<Models.Product> Products { get; set; }
         public override void Mount()
-        { 
-            Lines = new List<InvoiceLineModel>();
+        {
+            var invoice = _invoiceService.GetInvoice(InvoiceId);
+            CustomerId = invoice.CustomerId;
+            IssueDate = invoice.IssueDate;
+            PaymentTerms = invoice.PaymentTerms;
+            DueDate = invoice.DueDate;
+            Remarks = invoice.Remarks;
+            Lines = invoice.Lines;
+            ValueGross = invoice.ValueGross;
+            ValueNet = invoice.ValueNet;
+            ValueTax = invoice.ValueTax;
             Customers = _customerService.GetCustomers();
             Products = _productService.GetProducts();
-            IssueDate = DateTime.Today;
-            PaymentTerms = 30;
-            DueDate = DateTime.Today.AddDays(PaymentTerms);
         }
-        public void Add()
+        public void Save()
         {
-            var invoice = new Models.Invoice()
-            {
-                CustomerId = CustomerId,
-                IssueDate = IssueDate,
-                PaymentTerms = PaymentTerms,
-                DueDate = DueDate,
-                Remarks = Remarks,
-                Lines = Lines,
-                ValueGross = ValueGross,
-                ValueNet = ValueNet,
-                ValueTax = ValueTax,
-            };
-            _invoiceService.AddInvoice(invoice);
+            var invoice = _invoiceService.GetInvoice(InvoiceId);
+            invoice.CustomerId = CustomerId;
+            invoice.IssueDate = IssueDate;
+            invoice.PaymentTerms = PaymentTerms;
+            invoice.DueDate = DueDate;
+            invoice.Remarks = Remarks;
+            invoice.Lines = Lines;
+            invoice.ValueGross = ValueGross;
+            invoice.ValueNet = ValueNet;
+            invoice.ValueTax = ValueTax;
             Location(Url.Action("Index", "Invoice"));
         }
 
         public void Reset() =>
-            Location(Url.Action("Index", "Invoice"));
+             Location(Url.Action("Index", "Invoice"));
 
         public void AddLine()
         {
-            Lines.Add(new InvoiceLineModel() { Quantity = 1});
+            Lines.Add(new InvoiceLineModel() { Quantity = 1 });
             FocusLastLine = true;
             Summarize();
         }
@@ -98,7 +101,6 @@ namespace HydroLearningProject.Views.Invoice.Component
                 }
                 Summarize();
             }
-           
         }
         private void Summarize()
         {
@@ -106,7 +108,7 @@ namespace HydroLearningProject.Views.Invoice.Component
             {
                 line.ValueGross = line.ValueNet + (line.Tax * line.ValueNet / 100);
             }
-            ValueNet = Lines.Sum(t => t.ValueNet);            
+            ValueNet = Lines.Sum(t => t.ValueNet);
             ValueGross = Lines.Sum(t => t.ValueGross);
             ValueTax = ValueGross - ValueNet;
         }

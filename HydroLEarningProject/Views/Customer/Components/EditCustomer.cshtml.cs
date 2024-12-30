@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.ISerrvice;
-using HydroLearningProject.Models;
-using HydroLearningProject.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace HydroLearningProject.Views.Customer.Components
 {
@@ -26,31 +23,21 @@ namespace HydroLearningProject.Views.Customer.Components
         public override void Mount()
         {
             var customer = _customerService.GetCustomer(IdCustomer);
-
-            
             Name = customer.Name;
             Address = customer.Address;
             City = customer.City;
-            Country = customer.Country;
-            
+            Country = customer.Country;            
         }
         public void Save()
         {
             var customer = _customerService.GetCustomer(IdCustomer);
-
-
             customer.Name = Name;
             customer.Address = Address;
             customer.City = City;
             customer.Country = Country;
             Reset();
-
         }
-
-
-        public void Reset()
-        {
+        public void Reset() =>
             Location(Url.Action("Index", "Customer"));
-        }
     }
 }

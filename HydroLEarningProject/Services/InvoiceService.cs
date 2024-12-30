@@ -2,7 +2,6 @@
 using HydroLearningProject.ISerrvice;
 using HydroLearningProject.ISerrvices;
 using HydroLearningProject.Models;
-using HydroLearningProject.Repositories;
 
 namespace HydroLearningProject.Services
 {
@@ -16,7 +15,6 @@ namespace HydroLearningProject.Services
         {
             _invoiceRepository.RemoveInvoice(invoiceId);
         }
-
         public List<Invoice> GetInvoices()
         {
             var invoices = _invoiceRepository.GetInvoices();
@@ -25,7 +23,6 @@ namespace HydroLearningProject.Services
             }
             return invoices;
         }
-
         public Invoice GetInvoice(string invoiceId)
         {
             var invoice = _invoiceRepository.GetInvoice(invoiceId);

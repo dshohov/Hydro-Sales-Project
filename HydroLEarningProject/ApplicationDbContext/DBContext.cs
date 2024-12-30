@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using HydroLearningProject.Models;
+﻿using HydroLearningProject.Models;
 
 namespace HydroLearningProject.ApplicationDbContext
 {
@@ -81,14 +80,14 @@ namespace HydroLearningProject.ApplicationDbContext
         public List<Product> CreateProducts()
         {
             var products = new List<Product>();
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= 20; i++)
             {
                 products.Add(new Product
                 {
                     Name = $"Product{i}",
                     Code = $"Code{i:D4}",
-                    Price = Math.Round((decimal)(new Random().NextDouble() * 1000), 2), // Random price between 0 and 1000
-                    Tax = new Random().Next(0, 101) // Random tax between 0 and 100
+                    Price = Math.Round((decimal)(new Random().NextDouble() * 1000), 2),
+                    Tax = new Random().Next(0, 101) 
                 });
             };
             return products;

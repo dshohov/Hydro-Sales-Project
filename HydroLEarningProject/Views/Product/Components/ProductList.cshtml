@@ -1,13 +1,15 @@
 ﻿
-@model HydroLearningProject.Views.Home.Components.ProductList
+@model HydroLearningProject.Views.Product.Components.ProductList
 @{
 }
 <div>
+    
+    <products-diagram />
+
+
     <div class="flex justify-end mb-4">
-        <a asp-controller="Home" asp-action="Add" hydro-link>
-            <button class="btn btn-primary">
-                Add product
-            </button>
+        <a asp-controller="Product" class="btn btn-primary" asp-action="Add" hydro-link>
+            Add product
         </a>		
     </div>
 
@@ -80,7 +82,7 @@
                     <td>@i.Name</td>
                     <td>@i.Code</td>
                     <td>@i.Price</td>
-                    <td>@i.Tax</td>
+                    <td>@i.Tax %</td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-outline-dark " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,7 +91,7 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@i.Id" hydro-link>Edit</a></li>
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Edit" asp-route-id="@i.Id" hydro-link>Edit</a></li>
                                 
                                 <li><button class="dropdown-item" on:click="(() => Model.Remove(i.Id))">Delete</button></li>
                                 

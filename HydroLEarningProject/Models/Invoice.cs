@@ -23,8 +23,6 @@ namespace HydroLearningProject.Models
         public decimal ValueNet { get; set; }
         [Required]
         public decimal ValueTax { get; set; }
-
-
         public Customer Customer { get; set; }
 
 

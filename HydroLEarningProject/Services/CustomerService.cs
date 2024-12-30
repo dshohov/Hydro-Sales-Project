@@ -1,5 +1,4 @@
-﻿using HydroLearningProject.ApplicationDbContext;
-using HydroLearningProject.IRepositories;
+﻿using HydroLearningProject.IRepositories;
 using HydroLearningProject.ISerrvice;
 using HydroLearningProject.Models;
 
@@ -15,13 +14,10 @@ namespace HydroLearningProject.Services
         {
             _customerRepository.RemoveCustomer(customerId);
         }
-
         public List<Customer> GetCustomers()
         {
             return _customerRepository.GetCustomers();
-
         }
-
         public Customer GetCustomer(string customerId)
         {
             return _customerRepository.GetCustomer(customerId);

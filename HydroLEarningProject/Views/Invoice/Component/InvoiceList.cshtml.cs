@@ -1,9 +1,6 @@
-using AspNetCoreGeneratedDocument;
 using Hydro;
 using HydroLearningProject.ISerrvices;
-using HydroLearningProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HydroLearningProject.Views.Invoice.Component
 {
@@ -24,11 +21,9 @@ namespace HydroLearningProject.Views.Invoice.Component
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Customer)}'");
             }
-
             _invoices = Invoices.OrderBy(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Ascending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
-
         }
 
         public void OrderByDescending(string parameter)
@@ -38,16 +33,14 @@ namespace HydroLearningProject.Views.Invoice.Component
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Customer)}'");
             }
-
             _invoices = Invoices.OrderByDescending(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Descending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
         }
 
-        public void Remove(string invoiceId)
-        {
-            _invoiceService.RemoveInvoice(invoiceId);
-        }
+        public void Remove(string invoiceId) =>
+             _invoiceService.RemoveInvoice(invoiceId);
+
         [Poll(Interval = 6_000)]
         public async Task Refresh()
         {

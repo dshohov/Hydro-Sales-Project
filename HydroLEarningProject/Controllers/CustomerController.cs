@@ -10,7 +10,6 @@ namespace HydroLearningProject.Controllers
         }
         public IActionResult Add()
         {
-
             return View();
         }
         public IActionResult Edit(string id)

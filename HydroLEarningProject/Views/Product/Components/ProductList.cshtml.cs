@@ -1,32 +1,27 @@
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.ISerrvice;
-using HydroLearningProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HydroLearningProject.Views.Home.Components
+namespace HydroLearningProject.Views.Product.Components
 {
-    public class ProductList(IProductSerrvice _productSerrvice) : HydroComponent
+    public class ProductList(IProductService _productService) : HydroComponent
     {
-        private List<Product> _products;
+        private List<Models.Product> _products;
 
-        public List<Product> Products => _products ??= _productSerrvice.GetProducts();
+        public List<Models.Product> Products => _products ??= _productService.GetProducts();
 
         public void Add() =>
-            Location(Url.Page("/Home/Add"));
+            Location(Url.Page("/Product/Add"));
         public void Edit(string id) =>
-            Location(Url.Page("/Home/Edit", new { id }));
+            Location(Url.Page("/Product/Edit", new { id }));
 
         public void OrderByAscending(string parameter)
         {
-            var propertyInfo = typeof(Product).GetProperty(parameter);
+            var propertyInfo = typeof(Models.Product).GetProperty(parameter);
             if (propertyInfo == null)
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Product)}'");
             }
-
             _products = Products.OrderBy(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Ascending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
@@ -35,20 +30,17 @@ namespace HydroLearningProject.Views.Home.Components
 
         public void OrderByDescending(string parameter)
         {
-            var propertyInfo = typeof(Product).GetProperty(parameter);
+            var propertyInfo = typeof(Models.Product).GetProperty(parameter);
             if (propertyInfo == null)
             {
                 throw new ArgumentException($"Property '{parameter}' does not exist on type '{nameof(Product)}'");
             }
-
             _products = Products.OrderByDescending(p => propertyInfo.GetValue(p)).ToList();
             CookieStorage.Set("OrderParametr", "Descending", expiration: TimeSpan.FromDays(1), encryption: true);
             CookieStorage.Set("Parametr", parameter, expiration: TimeSpan.FromDays(1), encryption: true);
         }
-        public void Remove(string productId)
-        {
-            _productSerrvice.RemoveProduct(productId);
-        }
+        public void Remove(string productId) =>
+            _productService.RemoveProduct(productId);
 
 
         [Poll(Interval = 60_000)]

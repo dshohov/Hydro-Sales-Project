@@ -1,7 +1,6 @@
-﻿@model HydroLearningProject.Views.Invoice.Component.AddInvoice
+﻿@model HydroLearningProject.Views.Invoice.Component.EditInvoice
 
-
-<form class="p-4" method="post" on:submit="@(() => Model.Add())">
+<form class="p-4" method="post" on:submit="@(() => Model.Save())">
     <div class="flex-grow-1 overflow-y-auto">
         <div class="p-4">
             <h2 class="text-xl mb-3 font-bold">Add Customer</h2>
@@ -175,7 +174,7 @@
 
     
     <div class="d-flex gap-2">
-        <button class="btn btn-primary" on:click="@(() => Model.Add())" type="submit">
+        <button class="btn btn-primary" on:click="@(() => Model.Save())" type="submit">
             Save Changes
         </button>
         <button class="btn btn-secondary" on:click="@(() => Model.Reset())" type="reset">Reset</button>

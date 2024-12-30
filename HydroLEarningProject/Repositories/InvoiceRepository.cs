@@ -14,12 +14,10 @@ namespace HydroLearningProject.Repositories
         {
             _context.Invoices.Remove(GetInvoice(invoiceId));
         }
-
         public List<Invoice> GetInvoices()
         {
             return _context.Invoices;
         }
-
         public Invoice GetInvoice(string invoiceId)
         {
             return _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);

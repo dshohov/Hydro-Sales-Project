@@ -1,14 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.ISerrvice;
-using HydroLearningProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HydroLearningProject.Views.Home.Components
+namespace HydroLearningProject.Views.Product.Components
 {
-    public class EditProduct(IProductSerrvice _productSerrvice) : HydroComponent
+    public class EditProduct(IProductService _productService) : HydroComponent
     {
         [Required]
         public string IdProduct { get; set; }
@@ -27,9 +24,7 @@ namespace HydroLearningProject.Views.Home.Components
 
         public override void Mount()
         {
-            var product =  _productSerrvice.GetProduct(IdProduct);
-
-            
+            var product =  _productService.GetProduct(IdProduct);
             Name = product.Name;
             Code = product.Code;
             Price = product.Price;
@@ -38,9 +33,7 @@ namespace HydroLearningProject.Views.Home.Components
         }
         public void Save()
         {
-            var product = _productSerrvice.GetProduct(IdProduct);
-
-
+            var product = _productService.GetProduct(IdProduct);
             product.Name = Name;
             product.Code = Code;
             product.Price = Price;
@@ -50,9 +43,7 @@ namespace HydroLearningProject.Views.Home.Components
         }
 
 
-        public void Reset()
-        {
-            Location(Url.Page("/Home/Index"));
-        }
+        public void Reset() =>
+            Location(Url.Page("/Product/Index"));
     }
 }

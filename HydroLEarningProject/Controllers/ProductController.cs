@@ -4,22 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLEarningProject.Controllers
 {
-    public class HomeController : Controller
+    public class ProductController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
             return View();
         }
         public IActionResult Add()
-        {
-            
+        {            
             return View();
         }
         public IActionResult Edit(string id)

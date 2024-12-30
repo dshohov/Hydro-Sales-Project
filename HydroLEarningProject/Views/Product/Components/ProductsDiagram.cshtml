@@ -1,0 +1,15 @@
+﻿@model HydroLearningProject.Views.Product.Components.ProductsDiagram
+
+<div style="display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;">
+    <div id="chart" style="height: 450px;width: 80%;"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chartDom = document.getElementById('chart');
+            const myChart = echarts.init(chartDom);
+            const option = @Html.Raw(Json.Serialize(Model.GetChartDataPriceProduct));
+            myChart.setOption(option);
+        });
+    </script>
+</div>

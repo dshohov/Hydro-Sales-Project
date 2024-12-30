@@ -1,15 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using Hydro;
-using HydroLearningProject.ApplicationDbContext;
 using HydroLearningProject.ISerrvice;
-using HydroLearningProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HydroLearningProject.Views.Home.Components
+namespace HydroLearningProject.Views.Product.Components
 {
 
-    public class AddProduct(IProductSerrvice _productSerrvice) : HydroComponent
+    public class AddProduct(IProductService _productService) : HydroComponent
     {
         [Required]
         [MaxLength(50)]
@@ -30,7 +27,7 @@ namespace HydroLearningProject.Views.Home.Components
             if(!Validate())
                 return;
 
-            var product = new Product()
+            var product = new Models.Product()
             {
                 Name = Name,
                 Code = Code,
@@ -38,12 +35,11 @@ namespace HydroLearningProject.Views.Home.Components
                 Tax = Tax
             };
 
-            _productSerrvice.AddProduct(product);
+            _productService.AddProduct(product);
             Location(Url.Action("Index", "Product"));
         }
-        public void Reset()
-        {
+        public void Reset() =>
             Location(Url.Action("Index", "Product"));
-        }
+
     }
 }
