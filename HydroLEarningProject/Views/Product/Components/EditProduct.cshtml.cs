@@ -56,6 +56,6 @@ namespace HydroLearningProject.Views.Product.Components
         /// Method for Redirect to the Products Home Page
         /// </summary>
         public void Reset() =>
-            Location(Url.Page("/Product/Index"));
+            Redirect(Url.Page("/Product/Index"));
     }
 }

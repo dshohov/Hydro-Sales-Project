@@ -40,14 +40,14 @@ namespace HydroLearningProject.Views.Product.Components
             };
 
             _productService.AddProduct(product);
-            Location(Url.Action("Index", "Product"));
+            Redirect(Url.Action("Index", "Product"));
         }
 
         /// <summary>
         /// Method for Redirect to the Products Home Page
         /// </summary>
         public void Reset() =>
-            Location(Url.Action("Index", "Product"));
+            Redirect(Url.Action("Index", "Product"));
 
     }
 }
