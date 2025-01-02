@@ -2,6 +2,10 @@
 
 namespace HydroLearningProject.ApplicationDbContext
 {
+
+    /// <summary>
+    /// A class that replaces the database for this application.
+    /// </summary>
     public class DBContext
     {
         public List<Product> Products { get; set; }
@@ -14,6 +18,12 @@ namespace HydroLearningProject.ApplicationDbContext
             Invoices = CreateInvoices();
         }
 
+        ///<summary>
+        ///Creating the first Invoices in the database object.
+        ///</summary>
+        ///<returns>
+        ///List of Invoices that have been created
+        ///</returns>
         private List<Invoice> CreateInvoices()
         {
             var invoices = new List<Invoice>();
@@ -77,6 +87,12 @@ namespace HydroLearningProject.ApplicationDbContext
             return invoices;
         }
 
+        ///<summary>
+        ///Creating the first Products in the database object.
+        ///</summary>
+        ///<returns>
+        ///List of Products that have been created
+        ///</returns>
         public List<Product> CreateProducts()
         {
             var products = new List<Product>();
@@ -93,6 +109,12 @@ namespace HydroLearningProject.ApplicationDbContext
             return products;
         }
 
+        ///<summary>
+        ///Creating the first Customers in the database object.
+        ///</summary>
+        ///<returns>
+        ///List of Customers that have been created
+        ///</returns>
         public List<Customer> CreateCustomers()
         {
             var customers = new List<Customer>();
@@ -108,8 +130,5 @@ namespace HydroLearningProject.ApplicationDbContext
             };
             return customers;
         }
-
-
-
     }
 }

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLearningProject.Views.Invoice.Component
 {
+    /// <summary>
+    /// Component for creating new invoices.
+    /// </summary
     public class AddInvoice(IInvoiceService _invoiceService, ICustomerService _customerService, IProductService _productService) : HydroComponent
     {
         public string Id { get; set; }
@@ -31,7 +34,11 @@ namespace HydroLearningProject.Views.Invoice.Component
         [Transient]
         public bool FocusLastLine { get; set; }
         public List<Models.Customer> Customers { get; set; }
-        public List<Models.Product> Products { get; set; } 
+        public List<Models.Product> Products { get; set; }
+
+        /// <summary>
+        /// Method of filling some fields when loading a page.
+        /// </summary>
         public override void Mount()
         { 
             Lines = new List<InvoiceLineModel>();
@@ -41,6 +48,10 @@ namespace HydroLearningProject.Views.Invoice.Component
             PaymentTerms = 30;
             DueDate = DateTime.Today.AddDays(PaymentTerms);
         }
+
+        /// <summary>
+        /// Method for preparing and creating a new model invoices 
+        /// </summary>
         public void Add()
         {
             var invoice = new Models.Invoice()
@@ -59,9 +70,15 @@ namespace HydroLearningProject.Views.Invoice.Component
             Location(Url.Action("Index", "Invoice"));
         }
 
+        /// <summary>
+        /// Method for Redirect to the Invoices Home Page
+        /// </summary>
         public void Reset() =>
             Location(Url.Action("Index", "Invoice"));
 
+        /// <summary>
+        /// The method adds a new field to add a new product to the Invoice
+        /// </summary>
         public void AddLine()
         {
             Lines.Add(new InvoiceLineModel() { Quantity = 1});
@@ -69,37 +86,50 @@ namespace HydroLearningProject.Views.Invoice.Component
             Summarize();
         }
 
+        /// <summary>
+        /// The method removes the product field from the invoice.
+        /// </summary>
+        /// <param name="index">The index of the field to be deleted</param>
         public void RemoveLine(int index)
         {
             Lines.RemoveAt(index);
             Summarize();
         }
+
+        /// <summary>
+        /// Method for updating fields that depend on the field
+        /// that was changed and called this method
+        /// </summary>
+        /// <param name="property">Information about the field that called the method after it was modified</param>
+        /// <param name="value">The value that the field has</param>
         public override void Bind(PropertyPath property, object value)
         {
-            if (property.Name != "CustomerId")
+            var linesLast = Lines.Last();
+            var product = new Models.Product();
+            if (property.Child.Name == "IdProduct")
             {
-                var linesLast = Lines.Last();
-                try
-                {
-                    var quantity = Convert.ToInt32(value);
-                    var product2 = _productService.GetProduct(linesLast.IdProduct);
-                    linesLast.Quantity = quantity;
-                    linesLast.Tax = product2.Tax;
-                    linesLast.ValueNet = product2.Price * quantity;
-                    linesLast.ValueGross = linesLast.ValueNet + (linesLast.Tax * linesLast.ValueNet / 100);
-                }
-                catch
-                {
-                    var product = _productService.GetProduct(value.ToString());
-                    linesLast.IdProduct = value.ToString();
-                    linesLast.Tax = product.Tax;
-                    linesLast.ValueNet = product.Price * linesLast.Quantity;
-                    linesLast.ValueGross = linesLast.ValueNet + (linesLast.Tax * linesLast.ValueNet / 100);
-                }
-                Summarize();
+                product = _productService.GetProduct(value.ToString());
+                linesLast.IdProduct = value.ToString();
+                linesLast.Tax = product.Tax;
+                linesLast.ValueNet = product.Price * linesLast.Quantity;
+                linesLast.ValueGross = linesLast.ValueNet + (linesLast.Tax * linesLast.ValueNet / 100);
             }
-           
+            if (property.Child.Name == "Quantity")
+            {
+                var quantity = Convert.ToInt32(value);
+                product = _productService.GetProduct(linesLast.IdProduct);
+                linesLast.Quantity = quantity;
+                linesLast.Tax = product.Tax;
+                linesLast.ValueNet = product.Price * quantity;
+                linesLast.ValueGross = linesLast.ValueNet + (linesLast.Tax * linesLast.ValueNet / 100);
+            }
+            Summarize();
+
         }
+
+        /// <summary>
+        /// Method for recalculating Inoice prices
+        /// </summary>
         private void Summarize()
         {
             foreach (var line in Lines)

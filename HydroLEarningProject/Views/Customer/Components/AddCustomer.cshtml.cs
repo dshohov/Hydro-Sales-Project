@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLearningProject.Views.Customer.Components
 {
+    /// <summary>
+    /// Component for creating new customers.
+    /// </summary>
     public class AddCustomer(ICustomerService _customerService) : HydroComponent
     {
         [Required]
@@ -16,6 +19,10 @@ namespace HydroLearningProject.Views.Customer.Components
         public string City { get; set; }
         [Required]
         public string Country { get; set; }
+
+        /// <summary>
+        /// Method for preparing and creating a new model Customers 
+        /// </summary>
         public void Add()
         {
             if(!Validate())
@@ -30,6 +37,10 @@ namespace HydroLearningProject.Views.Customer.Components
             _customerService.AddCustomer(customer);
             Redirect(Url.Page("/Customer/Index"));
         }
+
+        /// <summary>
+        /// Method for Redirect to the Customers Home Page
+        /// </summary>
         public void Reset() => 
             Location(Url.Page("/Customer/Index"));
 

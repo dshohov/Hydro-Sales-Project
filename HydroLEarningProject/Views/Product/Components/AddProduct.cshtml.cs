@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLearningProject.Views.Product.Components
 {
-
+    /// <summary>
+    /// Component for creating new Product.
+    /// </summary
     public class AddProduct(IProductService _productService) : HydroComponent
     {
         [Required]
@@ -21,7 +23,9 @@ namespace HydroLearningProject.Views.Product.Components
         [Range(0, 100)]
         public int Tax { get; set; } = 5;
 
-
+        /// <summary>
+        /// Method for preparing and creating a new model products 
+        /// </summary>
         public void Add()
         {
             if(!Validate())
@@ -38,6 +42,10 @@ namespace HydroLearningProject.Views.Product.Components
             _productService.AddProduct(product);
             Location(Url.Action("Index", "Product"));
         }
+
+        /// <summary>
+        /// Method for Redirect to the Products Home Page
+        /// </summary>
         public void Reset() =>
             Location(Url.Action("Index", "Product"));
 

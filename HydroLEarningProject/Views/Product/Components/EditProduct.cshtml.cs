@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLearningProject.Views.Product.Components
 {
+    /// <summary>
+    /// Component for changing Product.
+    /// </summary
     public class EditProduct(IProductService _productService) : HydroComponent
     {
         [Required]
@@ -22,6 +25,9 @@ namespace HydroLearningProject.Views.Product.Components
         [Range(0, 100)]
         public int Tax { get; set; }
 
+        /// <summary>
+        /// Method of filling some fields when loading a page.
+        /// </summary>
         public override void Mount()
         {
             var product =  _productService.GetProduct(IdProduct);
@@ -31,6 +37,10 @@ namespace HydroLearningProject.Views.Product.Components
             Tax = product.Tax;
             
         }
+
+        /// <summary>
+        /// Method for saving changes
+        /// </summary>
         public void Save()
         {
             var product = _productService.GetProduct(IdProduct);
@@ -42,7 +52,9 @@ namespace HydroLearningProject.Views.Product.Components
 
         }
 
-
+        /// <summary>
+        /// Method for Redirect to the Products Home Page
+        /// </summary>
         public void Reset() =>
             Location(Url.Page("/Product/Index"));
     }

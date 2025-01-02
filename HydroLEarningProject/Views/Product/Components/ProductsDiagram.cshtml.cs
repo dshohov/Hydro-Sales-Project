@@ -3,12 +3,30 @@ using HydroLearningProject.ISerrvice;
 
 namespace HydroLearningProject.Views.Product.Components
 {
+    /// <summary>
+    /// Component for managing a list of products.
+    /// </summary>
     public class ProductsDiagram(IProductService _productService) : HydroComponent
     {
+        /// <summary>
+        /// Local storage of the product list.
+        /// Initialized on the first request via the <see cref="GetProducts"/> method.
+        /// </summary>
         private List<Models.Product> _products;
 
+        /// <summary>
+        /// List of products downloaded from the service <see cref="IProductService"/>.
+        /// </summary>
         public List<Models.Product> Products => _products ??= _productService.GetProducts();
+
+        /// <summary>
+        /// The object stores settings and data for creating a chart.
+        /// </summary>
         public object GetChartDataPriceProduct { get; set; }
+
+        /// <summary>
+        /// Method for creating a chart settings and data object when the page loads
+        /// </summary>
         public override void Mount()
         {
             var productData = Products.Select(product => new

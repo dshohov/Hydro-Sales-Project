@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HydroLearningProject.Views.Customer.Components
 {
+    /// <summary>
+    /// Component for changing customer
+    /// </summary>
     public class EditCustomer(ICustomerService _customerService) : HydroComponent
     {
         [Required]
@@ -20,6 +23,9 @@ namespace HydroLearningProject.Views.Customer.Components
         [Required]
         public string Country { get; set; }
 
+        /// <summary>
+        /// Method for filling fields on first page load
+        /// </summary>
         public override void Mount()
         {
             var customer = _customerService.GetCustomer(IdCustomer);
@@ -28,6 +34,10 @@ namespace HydroLearningProject.Views.Customer.Components
             City = customer.City;
             Country = customer.Country;            
         }
+
+        /// <summary>
+        /// Method for saving changes that have been applied to a customer
+        /// </summary>
         public void Save()
         {
             var customer = _customerService.GetCustomer(IdCustomer);
@@ -37,6 +47,11 @@ namespace HydroLearningProject.Views.Customer.Components
             customer.Country = Country;
             Reset();
         }
+
+        /// <summary>
+        /// Method for Redirect to the Customers Home Page
+        /// </summary>
+        /// </summary>
         public void Reset() =>
             Location(Url.Action("Index", "Customer"));
     }
